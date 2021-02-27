@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun PetAdoptionApp() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = Screen.PetListingScreen.route) {
-        composable(Screen.PetListingScreen.route) { PetListingScreen(navController, viewModel = viewModel()) }
-        composable(Screen.PetDetailsScreen.route,
+    NavHost(navController, startDestination = ScreenRoute.PET_LISTING_SCREEN.route) {
+        composable(ScreenRoute.PET_LISTING_SCREEN.route) { PetListingScreen(navController, viewModel = viewModel()) }
+        composable(ScreenRoute.PET_DETAILS_SCREEN.route,
             arguments = listOf(navArgument("petId") { type = NavType.StringType })) { backStackEntry ->
                 PetDetailsScreen(navController,
                     petId = backStackEntry.arguments?.getString("petId")!!,

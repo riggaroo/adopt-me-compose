@@ -28,9 +28,8 @@ fun PetListingScreen(navController: NavController, viewModel: PetListingViewMode
                 end = 12.dp),
                 pets.value
             ) { pet ->
-                navController.navigate("/details/${pet.id}")
+                navController.navigate(Screen.PetDetailsScreen(pet.id).getCalculatedRoute())
             }
         }
-
     }
 }
