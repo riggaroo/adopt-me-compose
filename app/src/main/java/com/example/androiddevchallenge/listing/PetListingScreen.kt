@@ -23,7 +23,8 @@ fun PetListingScreen(navController: NavController, viewModel: PetListingViewMode
                 style = MaterialTheme.typography.h4,
                 modifier = Modifier.padding(start = 16.dp,
                     end = 16.dp,
-                    top = 32.dp))
+                    top = 32.dp,
+                    bottom = 8.dp))
             PetGrid(modifier = Modifier.padding(start = 12.dp,
                 end = 12.dp),
                 pets.value

@@ -25,10 +25,9 @@ import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.R
 
 val playFairDisplayFont = FontFamily(
-    Font(R.font.playfair_display_regular),
-    Font(R.font.playfair_display_medium, FontWeight.W500),
-    Font(R.font.playfair_display_bold, FontWeight.Bold),
-    Font(R.font.playfair_display_italic, style = FontStyle.Italic)
+    Font(R.font.raleway_regular),
+    Font(R.font.raleway_bold, FontWeight.Bold),
+    Font(R.font.raleway_italic, style = FontStyle.Italic)
 )
 
 val typography = Typography(

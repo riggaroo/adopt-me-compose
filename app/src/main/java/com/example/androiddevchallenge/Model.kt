@@ -7,11 +7,13 @@ data class Pet(
     val id: String,
     val name: String,
     val type: PetType,
+    val description: String,
     val imageUrl: String,
     val gender: Gender,
     val weightKg: Float,
     val breed: String,
-    val location: LongLatLocation,
+    // For testing purposes this is just a display string.
+    val location: String,
     val dateOfBirth: ZonedDateTime
 )
 
@@ -26,8 +28,3 @@ enum class Gender {
     Female,
     NotSpecified
 }
-
-data class LongLatLocation(
-    val longitude: Float,
-    val latitude: Float
-)
