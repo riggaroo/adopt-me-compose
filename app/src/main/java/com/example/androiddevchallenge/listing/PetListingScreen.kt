@@ -12,9 +12,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
+import com.example.androiddevchallenge.listing.PetListingViewModel
 
 @Composable
-fun PetListingScreen(navController: NavController, viewModel: AdoptionViewModel) {
+fun PetListingScreen(navController: NavController, viewModel: PetListingViewModel) {
     val pets = viewModel.petsData.observeAsState(emptyList())
     Surface(color = MaterialTheme.colors.background) {
         Column() {
