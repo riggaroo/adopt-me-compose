@@ -1,6 +1,6 @@
 package com.example.androiddevchallenge
 
 sealed class Screen(val route: String) {
-    object PetListingScreen: Screen("/details")
-    object PetDetailsScreen: Screen("/list")
+    object PetListingScreen: Screen("/list")
+    object PetDetailsScreen: Screen("/details/{petId}")
 }

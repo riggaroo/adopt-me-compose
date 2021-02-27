@@ -21,8 +21,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.PetTheme
 
@@ -43,7 +45,12 @@ fun PetAdoptionApp() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = Screen.PetListingScreen.route) {
         composable(Screen.PetListingScreen.route) { PetListingScreen(navController, viewModel = viewModel()) }
-        composable(Screen.PetDetailsScreen.route) { PetDetailsScreen(navController, viewModel = viewModel()) }
+        composable(Screen.PetDetailsScreen.route,
+            arguments = listOf(navArgument("petId") { type = NavType.StringType })) { backStackEntry ->
+                PetDetailsScreen(navController,
+                    petId = backStackEntry.arguments?.getString("petId")!!,
+                    viewModel = viewModel())
+            }
     }
 }
 

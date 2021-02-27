@@ -8,11 +8,16 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class PetRepository {
+    private val listOfPets = listOf(dog, dog3, pickle)
 
     suspend fun getListPets(): List<Pet>
     {
         // FIXME IRL this would come from a server
-        return listOf(dog, dog3, pickle)
+        return listOfPets
+    }
+
+    suspend fun getPetById(id: String): Pet? {
+        return listOfPets.find { it.id == id }
     }
 }
 

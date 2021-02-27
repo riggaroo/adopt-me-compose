@@ -28,7 +28,7 @@ fun PetListingScreen(navController: NavController, viewModel: PetListingViewMode
                 end = 12.dp),
                 pets.value
             ) { pet ->
-                navController.navigate(Screen.PetDetailsScreen.route)
+                navController.navigate("/details/${pet.id}")
             }
         }
 
