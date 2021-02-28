@@ -15,7 +15,6 @@
  */
 package com.example.androiddevchallenge.details
 
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -64,6 +63,8 @@ import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.age
 import com.example.androiddevchallenge.data.dog
+import com.example.androiddevchallenge.data.dog3
+import com.example.androiddevchallenge.ui.theme.PetTheme
 import com.example.androiddevchallenge.ui.theme.outlineColor
 import com.example.androiddevchallenge.ui.theme.purple200
 import com.example.androiddevchallenge.ui.theme.purpleButtonLight
@@ -74,77 +75,98 @@ fun PetDetailsScreen(navController: NavController, petId: String, viewModel: Pet
     LaunchedEffect(petId) {
         viewModel.loadPetInfo(petId = petId)
     }
-    Surface(color = MaterialTheme.colors.background) {
-        val petState = viewModel.petData.observeAsState()
-        if (petState.value != null) {
-            val pet = petState.value!!
-            PetDetails(pet = pet, onBackPress = { navController.popBackStack() })
-        }
+    val petState = viewModel.petData.observeAsState()
+
+    if (petState.value != null) {
+        val pet = petState.value!!
+        PetDetails(pet = pet, onBackPress = { navController.popBackStack() })
     }
 }
 
-@Preview
+@Preview()
 @Composable
 fun PreviewPetDetails() {
-    PetDetails(pet = dog, onBackPress = { /*TODO*/ })
+    PetTheme() {
+        PetDetails(pet = dog, onBackPress = { /*TODO*/ })
+    }
+}
+
+@Preview()
+@Composable
+fun PreviewPetDetailsDarkTheme() {
+    PetTheme(darkTheme = true) {
+        PetDetails(pet = dog3, onBackPress = { /*TODO*/ })
+    }
 }
 
 @Composable
 fun PetDetails(pet: Pet, onBackPress: () -> Unit) {
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState())
-    ) {
-        CoilImage(
-            data = pet.imageUrl,
-            contentDescription = null,
-            fadeIn = true,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .height(350.dp)
-                .clip(
-                    RoundedCornerShape(
-                        topStart = CornerSize(0.dp),
-                        topEnd = CornerSize(0.dp),
-                        bottomEnd = CornerSize(32.dp),
-                        bottomStart = CornerSize(32.dp)
+    Surface(color = MaterialTheme.colors.background) {
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
+            CoilImage(
+                data = pet.imageUrl,
+                contentDescription = null,
+                fadeIn = true,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(350.dp)
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = CornerSize(0.dp),
+                            topEnd = CornerSize(0.dp),
+                            bottomEnd = CornerSize(32.dp),
+                            bottomStart = CornerSize(32.dp)
+                        )
+                    )
+            )
+            PetCardInformation(pet = pet)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = pet.name,
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 16.dp,
+                        bottom = 0.dp
                     )
                 )
-        )
-        PetCardInformation(pet = pet)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = pet.name,
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 0.dp)
-            )
-            Text(
-                text = pet.breed,
-                style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 0.dp),
-                textAlign = TextAlign.End
-            )
-        }
-        Location(pet = pet)
-        AboutSection(pet = pet)
-    }
-    Icon(
-        Icons.Filled.ArrowBack, "back",
-        modifier = Modifier
-            .size(48.dp)
-            .clickable {
-                onBackPress()
+                Text(
+                    text = pet.breed,
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 16.dp,
+                        bottom = 0.dp
+                    ),
+                    textAlign = TextAlign.End
+                )
             }
-            .padding(12.dp)
-    )
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        AdoptButtonBar()
+            Location(pet = pet)
+            AboutSection(pet = pet)
+        }
+        Icon(
+            Icons.Filled.ArrowBack, "back",
+            modifier = Modifier
+                .size(48.dp)
+                .clickable {
+                    onBackPress()
+                }
+                .padding(12.dp)
+        )
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            AdoptButtonBar()
+        }
     }
 }
 

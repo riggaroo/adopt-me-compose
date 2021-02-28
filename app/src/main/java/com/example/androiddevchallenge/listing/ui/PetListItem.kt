@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.listing
+package com.example.androiddevchallenge.listing.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

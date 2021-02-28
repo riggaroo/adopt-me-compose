@@ -19,7 +19,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -27,9 +29,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.details.PetDetailsScreen
-import com.example.androiddevchallenge.listing.PetListingScreen
+import com.example.androiddevchallenge.listing.PetListingViewModel
+import com.example.androiddevchallenge.listing.ui.PetListingScreen
 import com.example.androiddevchallenge.ui.theme.PetTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             PetTheme {
                 PetAdoptionApp()
+
             }
         }
     }
@@ -46,7 +52,13 @@ class MainActivity : AppCompatActivity() {
 fun PetAdoptionApp() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = ScreenRoute.PET_LISTING_SCREEN.route) {
-        composable(ScreenRoute.PET_LISTING_SCREEN.route) { PetListingScreen(navController, viewModel = viewModel()) }
+        composable(ScreenRoute.PET_LISTING_SCREEN.route) {
+            val viewModel: PetListingViewModel =
+                viewModel(
+                    factory = HiltViewModelFactory(LocalContext.current, it)
+                )
+            PetListingScreen(navController, viewModel = viewModel)
+        }
         composable(
             ScreenRoute.PET_DETAILS_SCREEN.route,
             arguments = listOf(navArgument("petId") { type = NavType.StringType })

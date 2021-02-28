@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.listing
+package com.example.androiddevchallenge.listing.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,15 +27,22 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import com.airbnb.lottie.compose.LottieAnimation
@@ -47,14 +54,41 @@ import com.example.androiddevchallenge.Screen
 import com.example.androiddevchallenge.data.dog
 import com.example.androiddevchallenge.data.dog3
 import com.example.androiddevchallenge.data.dog4
+import com.example.androiddevchallenge.listing.PetListModel
+import com.example.androiddevchallenge.listing.PetListingViewModel
+import com.example.androiddevchallenge.listing.mobius.PetListEvent
+import com.example.androiddevchallenge.listing.mobius.PetListViewEffect
+import com.spotify.mobius.android.LiveQueue
 
 @Composable
 fun PetListingScreen(navController: NavController, viewModel: PetListingViewModel) {
-    val pets = viewModel.petsData.observeAsState(emptyList())
-    PetListScreenContent(pets = pets.value) { pet ->
-        navController.navigate(Screen.PetDetailsScreen(pet.id).getCalculatedRoute())
+    val pets = viewModel.models.observeAsState(PetListModel())
+    val events = viewModel.viewEffects.observeAsState(initial = null)
+    if (events.value != null) {
+        when (val event = events.value){
+            is PetListViewEffect.ShowPetDetails -> {
+                navController.navigate(Screen.PetDetailsScreen(event.petId).getCalculatedRoute())
+            }
+        }
+    }
+    PetListScreenContent(pets = pets.value.listPets) { pet ->
+        viewModel.dispatchEvent(PetListEvent.OnPetSelected(pet))
     }
 }
+
+
+@Composable
+fun <R, T : R> LiveQueue<T>.observeAsState(initial: R): State<R> {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val state = remember { mutableStateOf(initial) }
+    DisposableEffect(this, lifecycleOwner) {
+        val observer = Observer<T> { state.value = it }
+        setObserver(lifecycleOwner, observer)
+        onDispose { clearObserver() }
+    }
+    return state
+}
+
 @Preview
 @Composable
 fun PetListPreview() {
@@ -66,7 +100,10 @@ fun PetListScreenContent(pets: List<Pet>, onPetSelected: (Pet) -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
         Column() {
             Row(
-                modifier = Modifier.height(80.dp).fillMaxWidth().padding(end = 16.dp),
+                modifier = Modifier
+                    .height(80.dp)
+                    .fillMaxWidth()
+                    .padding(end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {

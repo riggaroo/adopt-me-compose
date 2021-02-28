@@ -18,18 +18,20 @@ package com.example.androiddevchallenge.data
 import com.example.androiddevchallenge.Gender
 import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.PetLabel
+import io.reactivex.rxjava3.core.Single
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import javax.inject.Inject
 
-class PetRepository() {
+class PetRepository @Inject constructor() {
     private val listOfPets = listOf(
         dog7, dog, dog3, pickle, dog4, dog5, dog6,
         dog, dog3, pickle, dog4, dog5, dog6
     )
 
-    suspend fun getListPets(): List<Pet> {
+    fun getListPets(): Single<List<Pet>> {
         // FIXME IRL this would come from a server
-        return listOfPets
+        return Single.just(listOfPets)
     }
 
     suspend fun getPetById(id: String): Pet? {
