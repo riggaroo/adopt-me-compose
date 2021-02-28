@@ -2,6 +2,7 @@ package com.example.androiddevchallenge.data
 
 import com.example.androiddevchallenge.Gender
 import com.example.androiddevchallenge.Pet
+import com.example.androiddevchallenge.PetLabel
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -29,7 +30,8 @@ val dog = Pet(
     2.2f,
     "Cross",
     "Main Road, Rosentenville, South Africa 🇿🇦",
-    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
+    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
+    PetLabel.Adult
 )
 
 val pickle = Pet(
@@ -41,7 +43,8 @@ val pickle = Pet(
     2.5f,
     "Bulldog",
     "4th Avenue, Gauteng, South Africa 🇿🇦",
-    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
+    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
+    PetLabel.Puppy
 )
 
 val dog3 =  Pet(
@@ -54,7 +57,8 @@ val dog3 =  Pet(
     3.0f,
     "Border Collie",
     "110 N 3th St, Brooklyn, NY, USA 🇺🇸",
-    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
+    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
+    PetLabel.Puppy
 )
 
 val dog4 =  Pet(
@@ -67,7 +71,8 @@ val dog4 =  Pet(
     3.2f,
     "Maltese Poodle",
     "110 N 3th St, Brooklyn, NY, USA 🇺🇸",
-    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
+    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
+    PetLabel.Adult
 )
 
 val dog5 =  Pet(
@@ -79,7 +84,8 @@ val dog5 =  Pet(
     3.2f,
     "Pitbull",
     "171 Oxford Street, London, United Kingdom 🇬🇧",
-    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
+    ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
+    PetLabel.Adult
 )
 val dog6 =  Pet(
     "6",
@@ -90,7 +96,8 @@ val dog6 =  Pet(
     1.5f,
     "Spaniel",
     "152 Cold Street, Stockholm, Sweden 🇸🇪",
-    ZonedDateTime.of(2021, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
+    ZonedDateTime.of(2021, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
+    PetLabel.Puppy
 )
 
 val dog7 =  Pet(
@@ -102,5 +109,6 @@ val dog7 =  Pet(
     1.5f,
     "Corgi",
     "110 N 3th St, Brooklyn, NY, USA 🇺🇸",
-    ZonedDateTime.of(2021, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
+    ZonedDateTime.of(2021, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
+    PetLabel.Puppy
 )

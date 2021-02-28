@@ -25,9 +25,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.Gender
 import com.example.androiddevchallenge.Pet
+import com.example.androiddevchallenge.PetLabel
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.data.dog3
+import com.example.androiddevchallenge.ui.components.Chip
+import com.example.androiddevchallenge.ui.theme.orangeButtonLight
+import com.example.androiddevchallenge.ui.theme.orangeText
 import com.example.androiddevchallenge.ui.theme.outlineColor
+import com.example.androiddevchallenge.ui.theme.purple200
+import com.example.androiddevchallenge.ui.theme.purple500
+import com.example.androiddevchallenge.ui.theme.purpleButtonLight
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
@@ -52,27 +59,41 @@ fun PetCardListItem(pet: Pet, onPetClick: (Pet) -> Unit) {
                 modifier = Modifier.height(180.dp)
             )
             Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End) {
-              /*  if (pet.gender == Gender.Male){
-                    Image(imageVector = imageResource(R.drawable.ic_male),
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                when (pet.label) {
+                    PetLabel.Puppy -> {
+                        Chip("Puppy",
+                            color = purpleButtonLight,
+                            textColor = purple500,
+                        modifier = Modifier.padding(start  = 8.dp, top = 8.dp))
+                    }
+                    PetLabel.Adult -> {
+                        Chip("Adult",
+                            color = orangeButtonLight,
+                            textColor = orangeText,
+                            modifier = Modifier.padding(start  = 8.dp, top = 8.dp))
+                    }
+                }
+                if (pet.gender == Gender.Male){
+                    Image(painterResource(R.drawable.ic_male),
                         "male",
                         modifier = Modifier
                             .size(32.dp)
                             .padding(start = 8.dp, end = 8.dp, top = 0.dp, bottom = 0.dp)
                     )
                 } else if (pet.gender == Gender.Female){
-                    Image(imageVector = imageResource(R.drawable.ic_female),
+                    Image(painterResource(R.drawable.ic_female),
                         contentDescription = "female",
                         modifier = Modifier
                             .size(32.dp)
                             .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
                     )
-                }*/
+                }
             }
             Text(
                 pet.name,
                 style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 4.dp)
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp)
             )
             Text(
                 pet.breed,
