@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ButtonElevation
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Colors
@@ -71,8 +72,6 @@ fun PetDetailsScreen(navController: NavController, petId: String, viewModel: Pet
         if (petState.value != null) {
             val pet = petState.value!!
             PetDetails(pet = pet, onBackPress = { navController.popBackStack() })
-        } else {
-            CircularProgressIndicator()
         }
     }
 }
@@ -205,10 +204,11 @@ fun InfoCard(title: String, text: String){
 }
 
 @Composable
-fun AdoptButtonBar(){
+fun AdoptButtonBar() {
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start) {
         Button(
+            elevation = null,
             modifier = Modifier
                 .padding(16.dp)
                 .weight(4f)
@@ -217,6 +217,7 @@ fun AdoptButtonBar(){
             Text(text = stringResource(id = R.string.adopt_button_title))
         }
         Button(
+            elevation = null,
             colors = ButtonDefaults.buttonColors(backgroundColor = purpleButtonLight),
             modifier = Modifier
                 .padding(top = 16.dp, bottom = 16.dp, end = 16.dp)

@@ -20,7 +20,7 @@ data class Pet(
 
 fun ZonedDateTime.age() : String {
     val period = Period.between(this.toLocalDate(), ZonedDateTime.now().toLocalDate())
-    return period.months.toString() + "months"
+    return period.months.toString() + " months"
 }
 
 enum class PetType {

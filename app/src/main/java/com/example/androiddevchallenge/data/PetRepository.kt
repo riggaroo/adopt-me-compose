@@ -43,7 +43,7 @@ val pickle = Pet(
     Gender.Female,
     2.5f,
     "Bulldog",
-    "4th Avenue, Parkhurt, Gauteng, South Africa 🇿🇦",
+    "4th Avenue, Gauteng, South Africa 🇿🇦",
     ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
 )
 
