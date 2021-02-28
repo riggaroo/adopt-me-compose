@@ -46,7 +46,7 @@ private val LightColorPalette = lightColors(
 )
 
 val Colors.outlineColor: Color
-    get() = if(!isLight) darkGray else veryLightGray
+    get() = if (!isLight) darkGray else veryLightGray
 
 @Composable
 fun PetTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.androiddevchallenge.data
 
 import com.example.androiddevchallenge.Gender
@@ -7,11 +22,12 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class PetRepository() {
-    private val listOfPets = listOf(dog7, dog, dog3, pickle, dog4, dog5, dog6,
-        dog, dog3, pickle, dog4, dog5, dog6)
+    private val listOfPets = listOf(
+        dog7, dog, dog3, pickle, dog4, dog5, dog6,
+        dog, dog3, pickle, dog4, dog5, dog6
+    )
 
-    suspend fun getListPets(): List<Pet>
-    {
+    suspend fun getListPets(): List<Pet> {
         // FIXME IRL this would come from a server
         return listOfPets
     }
@@ -47,7 +63,7 @@ val pickle = Pet(
     PetLabel.Puppy
 )
 
-val dog3 =  Pet(
+val dog3 = Pet(
     "3",
     "Pippa",
     "Pickle is a bright, sensitive dog who enjoys play with his human family and responds well to training. As herders bred to move cattle, they are fearless and independent. They are vigilant watchdogs, with acute senses and a “big dog” bark. Families who can meet their bold but kindly Pembroke’s need for activity and togetherness will never have a more loyal, loving pet.",
@@ -61,7 +77,7 @@ val dog3 =  Pet(
     PetLabel.Puppy
 )
 
-val dog4 =  Pet(
+val dog4 = Pet(
     "4",
     "Coco",
     "Coco is a bright, sensitive dog who enjoys play with his human family and responds well to training. As herders bred to move cattle, they are fearless and independent. They are vigilant watchdogs, with acute senses and a “big dog” bark. Families who can meet their bold but kindly Pembroke’s need for activity and togetherness will never have a more loyal, loving pet.",
@@ -75,7 +91,7 @@ val dog4 =  Pet(
     PetLabel.Adult
 )
 
-val dog5 =  Pet(
+val dog5 = Pet(
     "5",
     "Pixel",
     "Pixel is a bright, sensitive dog who enjoys play with his human family and responds well to training. As herders bred to move cattle, they are fearless and independent. They are vigilant watchdogs, with acute senses and a “big dog” bark. Families who can meet their bold but kindly Pembroke’s need for activity and togetherness will never have a more loyal, loving pet.",
@@ -87,7 +103,7 @@ val dog5 =  Pet(
     ZonedDateTime.of(2015, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault()),
     PetLabel.Adult
 )
-val dog6 =  Pet(
+val dog6 = Pet(
     "6",
     "Finn",
     "Finn is a bright, sensitive dog who enjoys play with his human family and responds well to training. As herders bred to move cattle, they are fearless and independent. They are vigilant watchdogs, with acute senses and a “big dog” bark. Families who can meet their bold but kindly Pembroke’s need for activity and togetherness will never have a more loyal, loving pet.",
@@ -100,7 +116,7 @@ val dog6 =  Pet(
     PetLabel.Puppy
 )
 
-val dog7 =  Pet(
+val dog7 = Pet(
     "6",
     "Nora",
     "Nora is a bright, sensitive dog who enjoys play with his human family and responds well to training. As herders bred to move cattle, they are fearless and independent. They are vigilant watchdogs, with acute senses and a “big dog” bark. Families who can meet their bold but kindly Pembroke’s need for activity and togetherness will never have a more loyal, loving pet.",
