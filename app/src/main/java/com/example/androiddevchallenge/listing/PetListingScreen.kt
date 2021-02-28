@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationSpec
+import com.airbnb.lottie.compose.rememberLottieAnimationState
 import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.Screen
@@ -82,9 +83,11 @@ fun PetListScreenContent(pets: List<Pet>, onPetSelected: (Pet) -> Unit){
                         bottom = 8.dp
                     )
                 )
+                val animationState = rememberLottieAnimationState(autoPlay = true, repeatCount = Integer.MAX_VALUE)
                 val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.french_bulldog) }
                 LottieAnimation(
                     animationSpec,
+                    animationState = animationState,
                     modifier = Modifier.fillMaxSize()
                 )
             }
