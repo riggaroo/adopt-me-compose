@@ -27,7 +27,8 @@ import com.example.androiddevchallenge.R
 val playFairDisplayFont = FontFamily(
     Font(R.font.raleway_regular),
     Font(R.font.raleway_bold, FontWeight.Bold),
-    Font(R.font.raleway_italic, style = FontStyle.Italic)
+    Font(R.font.raleway_italic, style = FontStyle.Italic),
+    Font(R.font.raleway_semibold, FontWeight.SemiBold)
 )
 
 val typography = Typography(

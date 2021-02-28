@@ -1,5 +1,6 @@
 package com.example.androiddevchallenge.details
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Colors
 import androidx.compose.material.Icon
@@ -44,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +54,9 @@ import androidx.navigation.NavController
 import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.Screen
+import com.example.androiddevchallenge.age
 import com.example.androiddevchallenge.data.dog
+import com.example.androiddevchallenge.ui.theme.outlineColor
 import com.example.androiddevchallenge.ui.theme.purple200
 import com.example.androiddevchallenge.ui.theme.purple500
 import com.example.androiddevchallenge.ui.theme.purpleButtonLight
@@ -98,9 +103,11 @@ fun PetDetails(pet: Pet, onBackPress : () -> Unit){
                     )
                 )
         )
+        PetCardInformation(pet = pet)
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween){
             Text(text = pet.name,
+                fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 0.dp)
             )
@@ -110,28 +117,8 @@ fun PetDetails(pet: Pet, onBackPress : () -> Unit){
                 textAlign = TextAlign.End
             )
         }
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(Icons.Outlined.Place, null,
-                modifier = Modifier
-                    .width(16.dp)
-                    .padding(end = 2.dp, top = 2.dp)
-            )
-            Text(text = pet.location,
-                style = MaterialTheme.typography.body1,
-            )
-        }
-        Text(text = stringResource(id = R.string.about_pet_heading),
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-        )
-        Text(text = pet.description,
-            textAlign = TextAlign.Justify,
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(16.dp))
-        Spacer(modifier = Modifier.height(64.dp))
+        Location(pet = pet)
+        AboutSection(pet = pet)
     }
     Icon(Icons.Filled.ArrowBack, "back",
         modifier = Modifier
@@ -146,6 +133,76 @@ fun PetDetails(pet: Pet, onBackPress : () -> Unit){
     }
 }
 
+@Composable
+fun AboutSection(pet: Pet){
+    Text(text = stringResource(id = R.string.about_pet_heading),
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.SemiBold,
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+    )
+    Text(text = pet.description,
+        textAlign = TextAlign.Justify,
+        style = MaterialTheme.typography.body1,
+        modifier = Modifier.padding(16.dp))
+    Spacer(modifier = Modifier.height(64.dp))
+}
+
+
+@Composable
+fun Location(pet: Pet) {
+    Row(
+        modifier = Modifier.padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(Icons.Outlined.Place, null,
+            modifier = Modifier
+                .width(16.dp)
+                .padding(end = 2.dp, top = 2.dp)
+        )
+        Text(text = pet.location,
+            style = MaterialTheme.typography.body1,
+        )
+    }
+}
+
+@Composable
+fun PetCardInformation(pet: Pet){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        InfoCard(title = stringResource(id = R.string.age_title),
+            text = pet.dateOfBirth.age())
+        InfoCard(title = stringResource(id = R.string.weight_title),
+            text = "${pet.weightKg}kg" )
+        InfoCard(title = stringResource(id = R.string.sex_title),
+            text = pet.gender.name.capitalize())
+    }
+}
+
+@Composable
+fun InfoCard(title: String, text: String){
+    Card(modifier = Modifier
+        .padding(start = 8.dp, end = 8.dp, top = 8.dp)
+        .size(100.dp, 64.dp)
+        .clip(MaterialTheme.shapes.medium),
+        elevation = 8.dp,
+        border = BorderStroke(1.dp, MaterialTheme.colors.outlineColor)
+    ){
+        Column(verticalArrangement = Arrangement.Center){
+            Text(text = title,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.caption
+            )
+            Text(text = text,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.body1)
+        }
+    }
+}
 
 @Composable
 fun AdoptButtonBar(){

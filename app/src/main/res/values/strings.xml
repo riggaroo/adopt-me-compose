@@ -13,4 +13,7 @@
     <string name="pet_adopt_title">Find your new Best Friend</string>
     <string name="about_pet_heading">About</string>
     <string name="adopt_button_title">Adopt</string>
+    <string name="age_title">Age</string>
+    <string name="weight_title">Weight</string>
+    <string name="sex_title">Sex</string>
 </resources>

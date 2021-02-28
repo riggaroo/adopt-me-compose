@@ -52,15 +52,15 @@ fun PetCardListItem(pet: Pet, onPetClick: (Pet) -> Unit) {
             )
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End) {
-               /* if (pet.gender == Gender.Male){
-                    Image(imageVector = vectorResource(R.drawable.ic_male),
+              /*  if (pet.gender == Gender.Male){
+                    Image(imageVector = imageResource(R.drawable.ic_male),
                         "male",
                         modifier = Modifier
                             .size(32.dp)
                             .padding(start = 8.dp, end = 8.dp, top = 0.dp, bottom = 0.dp)
                     )
                 } else if (pet.gender == Gender.Female){
-                    Image(imageVector = vectorResource(R.drawable.ic_female),
+                    Image(imageVector = imageResource(R.drawable.ic_female),
                         contentDescription = "female",
                         modifier = Modifier
                             .size(32.dp)

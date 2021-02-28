@@ -1,5 +1,6 @@
 package com.example.androiddevchallenge
 
+import java.time.Period
 import java.time.ZonedDateTime
 
 
@@ -16,6 +17,11 @@ data class Pet(
     val location: String,
     val dateOfBirth: ZonedDateTime
 )
+
+fun ZonedDateTime.age() : String {
+    val period = Period.between(this.toLocalDate(), ZonedDateTime.now().toLocalDate())
+    return period.months.toString() + "months"
+}
 
 enum class PetType {
     Dog,

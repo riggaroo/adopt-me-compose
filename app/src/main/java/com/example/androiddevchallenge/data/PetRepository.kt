@@ -7,7 +7,8 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class PetRepository() {
-    private val listOfPets = listOf(dog, dog3, pickle, dog4, dog5, dog6)
+    private val listOfPets = listOf(dog, dog3, pickle, dog4, dog5, dog6,
+        dog, dog3, pickle, dog4, dog5, dog6)
 
     suspend fun getListPets(): List<Pet>
     {
@@ -95,6 +96,6 @@ val dog6 =  Pet(
     Gender.Male,
     1.5f,
     "Spaniel",
-    "152 Very Cold Street, Stockholm, Sweden 🇸🇪",
+    "152 Cold Street, Stockholm, Sweden 🇸🇪",
     ZonedDateTime.of(2020, 2, 3, 8, 50, 0, 0, ZoneId.systemDefault())
 )
