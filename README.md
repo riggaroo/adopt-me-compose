@@ -29,7 +29,7 @@ The following links were helpful for me:
 <!-- You can add more screenshots here if you like -->
 <img src="/results/screenshot_1.png" width="260">&emsp;<img src="/results/screenshot_2.png" width="260">
 
-![video demo]("/results/video.mp4")
+![video demo](https://github.com/riggaroo/adopt-me-compose/blob/main/results/video.mp4)
 
 ## License
 ```
