@@ -1,6 +1,7 @@
 package com.example.androiddevchallenge
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.data.PetRepository
 import com.example.androiddevchallenge.data.dog3
+import com.example.androiddevchallenge.ui.theme.outlineColor
+import com.example.androiddevchallenge.ui.theme.veryLightGray
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
@@ -29,7 +32,7 @@ fun PetCardListItem(pet: Pet, onPetClick: (Pet) -> Unit) {
                 onPetClick(pet)
                        },
         elevation = 8.dp,
-        backgroundColor = MaterialTheme.colors.surface
+        border = BorderStroke(1.dp, MaterialTheme.colors.outlineColor)
     ) {
 
         Column {

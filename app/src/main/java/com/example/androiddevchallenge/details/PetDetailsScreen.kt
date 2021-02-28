@@ -25,6 +25,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Colors
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -60,12 +61,14 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 fun PetDetailsScreen(navController: NavController, petId: String, viewModel: PetDetailsViewModel) {
     // todo double check how to run something "onCreate" of the view only once.
     viewModel.loadPetInfo(petId = petId)
-    val petState = viewModel.petData.observeAsState()
-    if (petState.value != null) {
-        val pet = petState.value!!
-        PetDetails(pet = pet, onBackPress = { navController.popBackStack() })
-    } else {
-        CircularProgressIndicator()
+    Surface(color = MaterialTheme.colors.background) {
+        val petState = viewModel.petData.observeAsState()
+        if (petState.value != null) {
+            val pet = petState.value!!
+            PetDetails(pet = pet, onBackPress = { navController.popBackStack() })
+        } else {
+            CircularProgressIndicator()
+        }
     }
 }
 

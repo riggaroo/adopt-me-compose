@@ -6,7 +6,7 @@ import com.example.androiddevchallenge.PetType
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class PetRepository {
+class PetRepository() {
     private val listOfPets = listOf(dog, dog3, pickle)
 
     suspend fun getListPets(): List<Pet>

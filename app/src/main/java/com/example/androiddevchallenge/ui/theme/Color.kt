@@ -24,5 +24,6 @@ val teal200 = Color(0xFF03DAC5)
 
 
 val veryLightGray = Color(0xFFEFEFF0)
+val darkGray = Color(0xFF323233)
 
 val purpleButtonLight = Color(0xFFDDD6F7)
