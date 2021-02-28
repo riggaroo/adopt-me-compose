@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,12 +75,13 @@ fun PetListScreenContent(pets: List<Pet>, onPetSelected: (Pet) -> Unit){
                     text = stringResource(id = R.string.pet_adopt_title),
                     style = MaterialTheme.typography.h5,
                     textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold,
                     modifier = Modifier
                         .fillMaxHeight()
                         .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 32.dp,
+                        start = 24.dp,
+                        end = 24.dp,
+                        top = 24.dp,
                         bottom = 8.dp
                     )
                 )
