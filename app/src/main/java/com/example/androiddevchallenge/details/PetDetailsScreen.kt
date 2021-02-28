@@ -190,7 +190,7 @@ fun Location(pet: Pet) {
 fun PetCardInformation(pet: Pet) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.Center
     ) {
         InfoCard(
             title = stringResource(id = R.string.age_title),
