@@ -28,6 +28,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -63,30 +64,23 @@ import com.spotify.mobius.android.LiveQueue
 @Composable
 fun PetListingScreen(navController: NavController, viewModel: PetListingViewModel) {
     val pets = viewModel.models.observeAsState(PetListModel())
-    val events = viewModel.viewEffects.observeAsState(initial = null)
-    if (events.value != null) {
-        when (val event = events.value){
-            is PetListViewEffect.ShowPetDetails -> {
-                navController.navigate(Screen.PetDetailsScreen(event.petId).getCalculatedRoute())
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(navController) {
+        viewModel.viewEffects.setObserver(lifecycleOwner, { effect ->
+            when (effect) {
+                is PetListViewEffect.ShowPetDetails -> {
+                    navController.navigate(Screen.PetDetailsScreen(effect.petId).getCalculatedRoute())
+                }
             }
+        })
+        onDispose {
+            viewModel.viewEffects.clearObserver()
         }
     }
+
     PetListScreenContent(pets = pets.value.listPets) { pet ->
         viewModel.dispatchEvent(PetListEvent.OnPetSelected(pet))
     }
-}
-
-
-@Composable
-fun <R, T : R> LiveQueue<T>.observeAsState(initial: R): State<R> {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val state = remember { mutableStateOf(initial) }
-    DisposableEffect(this, lifecycleOwner) {
-        val observer = Observer<T> { state.value = it }
-        setObserver(lifecycleOwner, observer)
-        onDispose { clearObserver() }
-    }
-    return state
 }
 
 @Preview
