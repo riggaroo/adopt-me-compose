@@ -47,6 +47,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,8 +73,9 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 fun PetDetailsScreen(navController: NavController, petId: String, viewModel: PetDetailsViewModel) {
-    // todo double check how to run something "onCreate" of the view only once.
-    viewModel.loadPetInfo(petId = petId)
+    LaunchedEffect(petId){
+        viewModel.loadPetInfo(petId = petId)
+    }
     Surface(color = MaterialTheme.colors.background) {
         val petState = viewModel.petData.observeAsState()
         if (petState.value != null) {
@@ -253,7 +255,8 @@ fun AdoptButtonBar() {
                     painter = painterResource(R.drawable.ic_paw_print),
                     contentDescription = null,
                     alignment = Alignment.Center,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier
+                        .size(16.dp)
                         .padding(top = 2.dp, end = 2.dp)
                 )
                 Text(
