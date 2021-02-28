@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -58,12 +57,12 @@ fun PetListingScreen(navController: NavController, viewModel: PetListingViewMode
 }
 @Preview
 @Composable
-fun PetListPreview(){
+fun PetListPreview() {
     PetListScreenContent(pets = listOf(dog, dog3, dog4), onPetSelected = { /*TODO*/ })
 }
 
 @Composable
-fun PetListScreenContent(pets: List<Pet>, onPetSelected: (Pet) -> Unit){
+fun PetListScreenContent(pets: List<Pet>, onPetSelected: (Pet) -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
         Column() {
             Row(
@@ -79,11 +78,11 @@ fun PetListScreenContent(pets: List<Pet>, onPetSelected: (Pet) -> Unit){
                     modifier = Modifier
                         .fillMaxHeight()
                         .padding(
-                        start = 24.dp,
-                        end = 24.dp,
-                        top = 24.dp,
-                        bottom = 8.dp
-                    )
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 24.dp,
+                            bottom = 8.dp
+                        )
                 )
                 val animationState = rememberLottieAnimationState(autoPlay = true, repeatCount = Integer.MAX_VALUE)
                 val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.french_bulldog) }

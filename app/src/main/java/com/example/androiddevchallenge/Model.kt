@@ -35,7 +35,7 @@ data class Pet(
 // TODO Improve this age calculation, take into account localisation as well as more options like days.
 fun ZonedDateTime.age(): String {
     val period = Period.between(this.toLocalDate(), ZonedDateTime.now().toLocalDate())
-    if (period.years > 0){
+    if (period.years > 0) {
         return period.years.toString() + " years"
     }
     return period.months.toString() + " months"

@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -56,7 +55,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -73,7 +71,7 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 fun PetDetailsScreen(navController: NavController, petId: String, viewModel: PetDetailsViewModel) {
-    LaunchedEffect(petId){
+    LaunchedEffect(petId) {
         viewModel.loadPetInfo(petId = petId)
     }
     Surface(color = MaterialTheme.colors.background) {
@@ -249,8 +247,10 @@ fun AdoptButtonBar() {
                 .height(52.dp),
             onClick = { /*TODO*/ }
         ) {
-            Row(horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Image(
                     painter = painterResource(R.drawable.ic_paw_print),
                     contentDescription = null,
@@ -263,9 +263,9 @@ fun AdoptButtonBar() {
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White,
-                    text = stringResource(id = R.string.adopt_button_title))
+                    text = stringResource(id = R.string.adopt_button_title)
+                )
             }
-
         }
         Button(
             elevation = null,
