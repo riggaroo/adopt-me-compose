@@ -7,7 +7,6 @@ import java.time.ZonedDateTime
 data class Pet(
     val id: String,
     val name: String,
-    val type: PetType,
     val description: String,
     val imageUrl: String,
     val gender: Gender,
@@ -21,12 +20,6 @@ data class Pet(
 fun ZonedDateTime.age() : String {
     val period = Period.between(this.toLocalDate(), ZonedDateTime.now().toLocalDate())
     return period.months.toString() + " months"
-}
-
-enum class PetType {
-    Dog,
-    Cat,
-    Bunny
 }
 
 enum class Gender {

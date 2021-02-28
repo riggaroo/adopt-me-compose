@@ -1,5 +1,6 @@
 package com.example.androiddevchallenge.details
 
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -90,6 +91,7 @@ fun PetDetails(pet: Pet, onBackPress : () -> Unit){
         CoilImage(
             data = pet.imageUrl,
             contentDescription = null,
+            fadeIn = true,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .height(350.dp)

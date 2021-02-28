@@ -45,6 +45,7 @@ fun PetCardListItem(pet: Pet, onPetClick: (Pet) -> Unit) {
 
         Column {
             CoilImage(
+                fadeIn = true,
                 data = pet.imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
