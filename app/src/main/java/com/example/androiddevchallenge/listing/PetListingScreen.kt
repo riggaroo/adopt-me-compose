@@ -1,7 +1,9 @@
-package com.example.androiddevchallenge
+package com.example.androiddevchallenge.listing
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,7 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
-import com.example.androiddevchallenge.listing.PetListingViewModel
+import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.Screen
 
 @Composable
 fun PetListingScreen(navController: NavController, viewModel: PetListingViewModel) {
@@ -20,7 +23,7 @@ fun PetListingScreen(navController: NavController, viewModel: PetListingViewMode
     Surface(color = MaterialTheme.colors.background) {
         Column() {
             Text(text = stringResource(id = R.string.pet_adopt_title),
-                style = MaterialTheme.typography.h4,
+                style = MaterialTheme.typography.h5,
                 modifier = Modifier.padding(start = 16.dp,
                     end = 16.dp,
                     top = 32.dp,
