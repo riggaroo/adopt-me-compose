@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         setContent {
             PetTheme {
                 PetAdoptionApp()
-
             }
         }
     }

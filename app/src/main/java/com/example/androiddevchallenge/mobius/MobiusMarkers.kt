@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import com.spotify.mobius.android.MobiusLoopViewModel
 import com.spotify.mobius.functions.Consumer
 
-
 interface MobiusEffect
 
 interface MobiusViewEffect

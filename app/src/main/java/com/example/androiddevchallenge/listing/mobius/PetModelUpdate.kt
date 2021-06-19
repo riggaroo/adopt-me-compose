@@ -9,14 +9,14 @@ import com.spotify.mobius.Update
  * Main event handling, takes incoming events from background side effects and UI interactions,
  * and transforms the model into a new state.
  */
-class PetModelUpdate(val viewEffectConsumer: ViewEffectConsumer<PetListViewEffect>) : Update<PetListModel, PetListEvent, PetListEffect>{
+class PetModelUpdate(val viewEffectConsumer: ViewEffectConsumer<PetListViewEffect>) : Update<PetListModel, PetListEvent, PetListEffect> {
 
     override fun update(
         model: PetListModel,
         event: PetListEvent
     ): Next<PetListModel, PetListEffect> {
-        return when (event){
-            is PetListEvent.OnPetSelected ->{
+        return when (event) {
+            is PetListEvent.OnPetSelected -> {
                 viewEffectConsumer.accept(PetListViewEffect.ShowPetDetails(event.pet.id))
                 Next.noChange()
             }
@@ -24,5 +24,4 @@ class PetModelUpdate(val viewEffectConsumer: ViewEffectConsumer<PetListViewEffec
                 Next.next(model.copy(listPets = event.listPets))
         }
     }
-
 }

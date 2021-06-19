@@ -40,10 +40,10 @@ class PetListingViewModel @Inject constructor(
 ) : MobiusLoopViewModel<PetListModel, PetListEvent, PetListEffect, PetListViewEffect>(
     MobiusFunction<ViewEffectConsumer<PetListViewEffect>, MobiusLoop.Factory<PetListModel, PetListEvent, PetListEffect>> {
         val sideEffectHandler = PetSideEffectHandler(petUseCase = petUseCase)
-            RxMobius.loop(
-                PetModelUpdate(it),
-                sideEffectHandler
-            )
+        RxMobius.loop(
+            PetModelUpdate(it),
+            sideEffectHandler
+        )
     },
     PetListModel(),
     PetModelInit(),

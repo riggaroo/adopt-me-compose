@@ -5,6 +5,5 @@ package com.example.androiddevchallenge.listing.mobius
  */
 sealed class PetListEffect {
 
-    object LoadPets: PetListEffect()
-
+    object LoadPets : PetListEffect()
 }
