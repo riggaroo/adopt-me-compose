@@ -68,6 +68,7 @@ fun PetCardListItem(pet: Pet, onPetClick: (Pet) -> Unit) {
                     request = pet.imageUrl,
                     fadeIn = true
                 ),
+                contentScale = ContentScale.Crop,
                 contentDescription = null,
                 modifier = Modifier.height(180.dp).fillMaxWidth()
             )
