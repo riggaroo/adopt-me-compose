@@ -47,7 +47,7 @@ import com.example.androiddevchallenge.ui.theme.orangeText
 import com.example.androiddevchallenge.ui.theme.outlineColor
 import com.example.androiddevchallenge.ui.theme.purple500
 import com.example.androiddevchallenge.ui.theme.purpleButtonLight
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.google.accompanist.coil.rememberCoilPainter
 
 @Composable
 fun PetCardListItem(pet: Pet, onPetClick: (Pet) -> Unit) {
@@ -63,12 +63,14 @@ fun PetCardListItem(pet: Pet, onPetClick: (Pet) -> Unit) {
     ) {
 
         Column {
-            CoilImage(
-                fadeIn = true,
-                data = pet.imageUrl,
-                contentDescription = null,
+            Image(
+                painter = rememberCoilPainter(
+                    request = pet.imageUrl,
+                    fadeIn = true
+                ),
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.height(180.dp)
+                contentDescription = null,
+                modifier = Modifier.height(180.dp).fillMaxWidth()
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),

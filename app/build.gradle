@@ -8,6 +8,7 @@ plugins {
 
 android {
     compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.androiddevchallenge"
@@ -39,10 +40,6 @@ android {
         }
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     buildFeatures {
         compose true
 
@@ -53,7 +50,10 @@ android {
         resValues false
         shaders false
     }
-
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
@@ -81,10 +81,10 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
-    implementation "androidx.activity:activity-compose:$compose_version"
+    implementation "androidx.activity:activity-compose:1.3.0-beta02"
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
@@ -92,11 +92,11 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha02"
 
-    implementation 'com.airbnb.android:lottie-compose:1.0.0-alpha07-SNAPSHOT'
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha08"
-    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.6.0"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.3.3'
+    implementation 'com.airbnb.android:lottie-compose:1.0.0-beta07-2-SNAPSHOT'
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha03"
+    implementation "com.google.accompanist:accompanist-coil:0.12.0"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.3.5'
     implementation "androidx.compose.ui:ui-viewbinding:$compose_version"
 
 

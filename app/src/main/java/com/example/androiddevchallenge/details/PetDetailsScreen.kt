@@ -59,6 +59,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.transform.CircleCropTransformation
 import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.age
@@ -68,7 +69,7 @@ import com.example.androiddevchallenge.ui.theme.PetTheme
 import com.example.androiddevchallenge.ui.theme.outlineColor
 import com.example.androiddevchallenge.ui.theme.purple200
 import com.example.androiddevchallenge.ui.theme.purpleButtonLight
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.google.accompanist.coil.rememberCoilPainter
 
 @Composable
 fun PetDetailsScreen(navController: NavController, petId: String, viewModel: PetDetailsViewModel) {
@@ -105,10 +106,11 @@ fun PetDetails(pet: Pet, onBackPress: () -> Unit) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            CoilImage(
-                data = pet.imageUrl,
+            Image(
+                painter = rememberCoilPainter(
+                    request = pet.imageUrl,
+                ),
                 contentDescription = null,
-                fadeIn = true,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .height(350.dp)
