@@ -19,7 +19,7 @@ buildscript {
         mobius_version = '1.5.3'
         room_version = '2.3.0-beta02'
         room_coroutines_version = '2.1.0-alpha04'
-        hilt_version = "2.33-beta"
+        hilt_version = "2.37"
     }
     ext.kotlin_version = '1.5.10'
     ext.compose_version = '1.0.0-beta09'
