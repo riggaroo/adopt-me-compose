@@ -5,6 +5,7 @@ plugins {
 
 android {
     compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.androiddevchallenge"
@@ -46,7 +47,10 @@ android {
         resValues false
         shaders false
     }
-
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
@@ -62,7 +66,8 @@ android {
         // Flag to enable support for the new language APIs
         coreLibraryDesugaringEnabled true
         // Sets Java compatibility to Java 8
-
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

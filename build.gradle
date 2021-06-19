@@ -21,7 +21,7 @@ buildscript {
 
     repositories {
         google()
-
+        mavenCentral()
     }
 
     dependencies {
@@ -34,9 +34,10 @@ plugins {
     id 'com.diffplug.spotless' version '5.7.0'
 }
 
-subprojects {
+allprojects {
     repositories {
         google()
+        mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
