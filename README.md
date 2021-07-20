@@ -7,7 +7,7 @@
 
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
-Adopt Me is an app for finding puppies up for adoption! Based on using Jetpack Compose, it has a focus on the UI.
+Adopt Me is an app for finding puppies up for adoption! Based on using Jetpack Compose, it has a focus on UI and demonstrating how to use Spotify's Mobius Framework with Jetpack Compose. 
 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
