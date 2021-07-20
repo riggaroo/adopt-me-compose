@@ -74,6 +74,10 @@ import com.example.androiddevchallenge.details.mvi.PetDetailsEvent
 import com.example.androiddevchallenge.details.mvi.PetDetailsModel
 import com.example.androiddevchallenge.details.mvi.PetDetailsViewEffect
 import com.example.androiddevchallenge.details.mvi.ViewState
+import com.example.androiddevchallenge.details.ui.AboutSection
+import com.example.androiddevchallenge.details.ui.AdoptButtonBar
+import com.example.androiddevchallenge.details.ui.Location
+import com.example.androiddevchallenge.details.ui.PetCardInformation
 import com.example.androiddevchallenge.mobius.DisposableViewEffect
 import com.example.androiddevchallenge.ui.theme.PetTheme
 import com.example.androiddevchallenge.ui.theme.outlineColor
@@ -126,40 +130,33 @@ fun PetDetailsViewStates(
 ) {
     when (viewState.viewState) {
         ViewState.LOADING -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+           LoadingState()
         }
         ViewState.LOADED -> {
-            val pet = viewState.pet
-            if (pet != null) {
-                PetDetails(
-                    pet = pet,
-                    actioner = actioner
-                )
-            } else {
-                Text(text = "Pet not found")
-            }
+            LoadedState(viewState = viewState, actioner = actioner)
         }
     }
 }
-
-@Preview()
 @Composable
-fun PreviewPetDetails() {
-    PetTheme() {
-        PetDetails(pet = dog, actioner = { /*TODO*/ })
+fun LoadedState(viewState: PetDetailsModel, actioner: (PetDetailsEvent) -> Unit) {
+    val pet = viewState.pet
+    if (pet != null) {
+        PetDetails(
+            pet = pet,
+            actioner = actioner
+        )
+    } else {
+        Text(text = "Pet not found")
     }
 }
 
-@Preview()
 @Composable
-fun PreviewPetDetailsDarkTheme() {
-    PetTheme(darkTheme = true) {
-        PetDetails(pet = dog3, actioner = { /*TODO*/ })
+fun LoadingState() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }
 
@@ -243,145 +240,19 @@ fun PetDetails(pet: Pet, actioner: (PetDetailsEvent) -> Unit) {
     }
 }
 
-@Composable
-fun AboutSection(pet: Pet) {
-    Text(
-        text = stringResource(id = R.string.about_pet_heading),
-        style = MaterialTheme.typography.h6,
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-    )
-    Text(
-        text = pet.description,
-        textAlign = TextAlign.Justify,
-        style = MaterialTheme.typography.body1,
-        modifier = Modifier.padding(16.dp)
-    )
-    Spacer(modifier = Modifier.height(64.dp))
-}
 
+@Preview()
 @Composable
-fun Location(pet: Pet) {
-    Row(
-        modifier = Modifier.padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            Icons.Outlined.Place, null,
-            modifier = Modifier
-                .width(16.dp)
-                .padding(end = 2.dp, top = 2.dp)
-        )
-        Text(
-            text = pet.location,
-            style = MaterialTheme.typography.body1,
-        )
+fun PreviewPetDetails() {
+    PetTheme() {
+        PetDetails(pet = dog, actioner = { /*TODO*/ })
     }
 }
 
+@Preview()
 @Composable
-fun PetCardInformation(pet: Pet) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        InfoCard(
-            title = stringResource(id = R.string.age_title),
-            text = pet.dateOfBirth.age()
-        )
-        InfoCard(
-            title = stringResource(id = R.string.weight_title),
-            text = "${pet.weightKg}kg"
-        )
-        InfoCard(
-            title = stringResource(id = R.string.sex_title),
-            text = pet.gender.name.capitalize()
-        )
-    }
-}
-
-@Composable
-fun InfoCard(title: String, text: String) {
-    Card(
-        modifier = Modifier
-            .padding(start = 8.dp, end = 8.dp, top = 8.dp)
-            .size(100.dp, 64.dp)
-            .clip(MaterialTheme.shapes.medium),
-        elevation = 8.dp,
-        border = BorderStroke(1.dp, MaterialTheme.colors.outlineColor)
-    ) {
-        Column(verticalArrangement = Arrangement.Center) {
-            Text(
-                text = title,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.caption
-            )
-            Text(
-                text = text,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.body1
-            )
-        }
-    }
-}
-
-@Composable
-fun AdoptButtonBar(
-    onAdoptClicked: () -> Unit,
-    onCallClicked: () -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Button(
-            elevation = null,
-            modifier = Modifier
-                .padding(16.dp)
-                .weight(4f)
-                .height(52.dp),
-            onClick = { onAdoptClicked() }
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_paw_print),
-                    contentDescription = null,
-                    alignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(16.dp)
-                        .padding(top = 2.dp, end = 2.dp)
-                )
-                Text(
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
-                    text = stringResource(id = R.string.adopt_button_title)
-                )
-            }
-        }
-        Button(
-            elevation = null,
-            colors = ButtonDefaults.buttonColors(backgroundColor = purpleButtonLight),
-            modifier = Modifier
-                .padding(top = 16.dp, bottom = 16.dp, end = 16.dp)
-                .weight(1f)
-                .wrapContentWidth()
-                .height(52.dp),
-            onClick = { onCallClicked() }
-        ) {
-            Icon(
-                Icons.Filled.Phone, "phone",
-                tint = purple200,
-                modifier = Modifier
-                    .size(48.dp)
-                    .padding(4.dp)
-            )
-        }
+fun PreviewPetDetailsDarkTheme() {
+    PetTheme(darkTheme = true) {
+        PetDetails(pet = dog3, actioner = { /*TODO*/ })
     }
 }
