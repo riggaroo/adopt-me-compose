@@ -1,13 +1,9 @@
 # Adopt Me
 
-<!--- Replace <OWNER> with your Github Username and <REPOSITORY> with the name of your repository. -->
-<!--- You can find both of these in the url bar when you open your repository in github. -->
-![Workflow result](https://github.com/riggaroo/adopt-me-compose/workflows/Check/badge.svg)
-
 
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
-Adopt Me is an app for finding puppies up for adoption! Based on using Jetpack Compose, it has a focus on the UI.
+Adopt Me is an app for finding puppies up for adoption! Based on using Jetpack Compose, it has a focus on UI and demonstrating how to use Spotify's Mobius Framework with Jetpack Compose. 
 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
