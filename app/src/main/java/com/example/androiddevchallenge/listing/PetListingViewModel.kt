@@ -15,12 +15,12 @@
  */
 package com.example.androiddevchallenge.listing
 
-import com.example.androiddevchallenge.listing.mobius.PetListEffect
-import com.example.androiddevchallenge.listing.mobius.PetListEvent
-import com.example.androiddevchallenge.listing.mobius.PetListViewEffect
-import com.example.androiddevchallenge.listing.mobius.PetModelInit
-import com.example.androiddevchallenge.listing.mobius.PetModelUpdate
-import com.example.androiddevchallenge.listing.mobius.PetSideEffectHandler
+import com.example.androiddevchallenge.listing.mvi.PetListEffect
+import com.example.androiddevchallenge.listing.mvi.PetListEvent
+import com.example.androiddevchallenge.listing.mvi.PetListViewEffect
+import com.example.androiddevchallenge.listing.mvi.PetModelInit
+import com.example.androiddevchallenge.listing.mvi.PetModelUpdate
+import com.example.androiddevchallenge.listing.mvi.PetSideEffectHandler
 import com.example.androiddevchallenge.mobius.ViewEffectConsumer
 import com.example.androiddevchallenge.mobius.WorkRunnersConstants
 import com.example.androiddevchallenge.usecase.PetUseCase

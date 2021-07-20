@@ -15,10 +15,14 @@
  */
 package com.example.androiddevchallenge.details
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +40,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -52,6 +57,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -64,6 +70,11 @@ import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.age
 import com.example.androiddevchallenge.data.dog
 import com.example.androiddevchallenge.data.dog3
+import com.example.androiddevchallenge.details.mvi.PetDetailsEvent
+import com.example.androiddevchallenge.details.mvi.PetDetailsModel
+import com.example.androiddevchallenge.details.mvi.PetDetailsViewEffect
+import com.example.androiddevchallenge.details.mvi.ViewState
+import com.example.androiddevchallenge.mobius.DisposableViewEffect
 import com.example.androiddevchallenge.ui.theme.PetTheme
 import com.example.androiddevchallenge.ui.theme.outlineColor
 import com.example.androiddevchallenge.ui.theme.purple200
@@ -73,13 +84,66 @@ import com.google.accompanist.coil.rememberCoilPainter
 @Composable
 fun PetDetailsScreen(navController: NavController, petId: String, viewModel: PetDetailsViewModel) {
     LaunchedEffect(petId) {
-        viewModel.loadPetInfo(petId = petId)
+        viewModel.dispatchEvent(PetDetailsEvent.LoadPet(petId))
     }
-    val petState = viewModel.petData.observeAsState()
+    val context = LocalContext.current
 
-    if (petState.value != null) {
-        val pet = petState.value!!
-        PetDetails(pet = pet, onBackPress = { navController.popBackStack() })
+    viewModel.viewEffects.DisposableViewEffect { effect ->
+        handleViewEffect(context = context, navController = navController, effect = effect)
+    }
+    val viewState = viewModel.models.observeAsState(PetDetailsModel())
+    PetDetailsViewStates(viewState = viewState.value) { viewModel.dispatchEvent(it) }
+}
+
+private fun handleViewEffect(
+    context: Context,
+    navController: NavController,
+    effect: PetDetailsViewEffect
+) {
+    when (effect) {
+        is PetDetailsViewEffect.OpenAdoptUrl -> {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(effect.url)
+            )
+            context.startActivity(intent)
+        }
+        is PetDetailsViewEffect.OpenAndroidDialer -> {
+            val intent = Intent(
+                Intent.ACTION_DIAL,
+                Uri.parse(effect.phoneNumber)
+            )
+            context.startActivity(intent)
+        }
+        is PetDetailsViewEffect.CloseScreen -> navController.popBackStack()
+    }
+}
+
+@Composable
+fun PetDetailsViewStates(
+    viewState: PetDetailsModel,
+    actioner: (PetDetailsEvent) -> Unit
+) {
+    when (viewState.viewState) {
+        ViewState.LOADING -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        ViewState.LOADED -> {
+            val pet = viewState.pet
+            if (pet != null) {
+                PetDetails(
+                    pet = pet,
+                    actioner = actioner
+                )
+            } else {
+                Text(text = "Pet not found")
+            }
+        }
     }
 }
 
@@ -87,7 +151,7 @@ fun PetDetailsScreen(navController: NavController, petId: String, viewModel: Pet
 @Composable
 fun PreviewPetDetails() {
     PetTheme() {
-        PetDetails(pet = dog, onBackPress = { /*TODO*/ })
+        PetDetails(pet = dog, actioner = { /*TODO*/ })
     }
 }
 
@@ -95,12 +159,12 @@ fun PreviewPetDetails() {
 @Composable
 fun PreviewPetDetailsDarkTheme() {
     PetTheme(darkTheme = true) {
-        PetDetails(pet = dog3, onBackPress = { /*TODO*/ })
+        PetDetails(pet = dog3, actioner = { /*TODO*/ })
     }
 }
 
 @Composable
-fun PetDetails(pet: Pet, onBackPress: () -> Unit) {
+fun PetDetails(pet: Pet, actioner: (PetDetailsEvent) -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
@@ -112,6 +176,7 @@ fun PetDetails(pet: Pet, onBackPress: () -> Unit) {
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
+                    .fillMaxWidth()
                     .height(350.dp)
                     .clip(
                         RoundedCornerShape(
@@ -158,7 +223,7 @@ fun PetDetails(pet: Pet, onBackPress: () -> Unit) {
             modifier = Modifier
                 .size(48.dp)
                 .clickable {
-                    onBackPress()
+                    actioner(PetDetailsEvent.BackPressed)
                 }
                 .padding(12.dp)
         )
@@ -166,7 +231,14 @@ fun PetDetails(pet: Pet, onBackPress: () -> Unit) {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ) {
-            AdoptButtonBar()
+            AdoptButtonBar(
+                onAdoptClicked = {
+                    actioner(PetDetailsEvent.AdoptClicked)
+                },
+                onCallClicked = {
+                    actioner(PetDetailsEvent.CallClicked)
+                }
+            )
         }
     }
 }
@@ -257,7 +329,10 @@ fun InfoCard(title: String, text: String) {
 }
 
 @Composable
-fun AdoptButtonBar() {
+fun AdoptButtonBar(
+    onAdoptClicked: () -> Unit,
+    onCallClicked: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
@@ -268,7 +343,7 @@ fun AdoptButtonBar() {
                 .padding(16.dp)
                 .weight(4f)
                 .height(52.dp),
-            onClick = { /*TODO*/ }
+            onClick = { onAdoptClicked() }
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -298,7 +373,7 @@ fun AdoptButtonBar() {
                 .weight(1f)
                 .wrapContentWidth()
                 .height(52.dp),
-            onClick = { /*TODO*/ }
+            onClick = { onCallClicked() }
         ) {
             Icon(
                 Icons.Filled.Phone, "phone",

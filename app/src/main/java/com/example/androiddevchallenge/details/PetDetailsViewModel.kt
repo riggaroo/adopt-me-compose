@@ -15,26 +15,39 @@
  */
 package com.example.androiddevchallenge.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.androiddevchallenge.Pet
-import com.example.androiddevchallenge.data.PetRepository
+import com.example.androiddevchallenge.details.mvi.PetDetailsEffect
+import com.example.androiddevchallenge.details.mvi.PetDetailsEvent
+import com.example.androiddevchallenge.details.mvi.PetDetailsModel
+import com.example.androiddevchallenge.details.mvi.PetDetailsModelInit
+import com.example.androiddevchallenge.details.mvi.PetDetailsModelUpdate
+import com.example.androiddevchallenge.details.mvi.PetDetailsSideEffectHandler
+import com.example.androiddevchallenge.details.mvi.PetDetailsViewEffect
+import com.example.androiddevchallenge.mobius.ViewEffectConsumer
+import com.example.androiddevchallenge.mobius.WorkRunnersConstants
+import com.example.androiddevchallenge.usecase.PetUseCase
+import com.spotify.mobius.MobiusLoop
+import com.spotify.mobius.android.MobiusLoopViewModel
+import com.spotify.mobius.runners.WorkRunner
+import com.spotify.mobius.rx3.RxMobius
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
+import com.spotify.mobius.functions.Function as MobiusFunction
 
 @HiltViewModel
-class PetDetailsViewModel @Inject constructor(private val petRepository: PetRepository) : ViewModel() {
-
-    private val _petData = MutableLiveData<Pet>()
-    val petData: LiveData<Pet>
-        get() = _petData
-
-    fun loadPetInfo(petId: String) {
-        viewModelScope.launch {
-            _petData.value = petRepository.getPetById(petId)
-        }
-    }
-}
+class PetDetailsViewModel @Inject constructor(
+    private val petUseCase: PetUseCase,
+    @Named(WorkRunnersConstants.MAIN_THREAD_WORK_RUNNER) workRunner: WorkRunner
+) : MobiusLoopViewModel<PetDetailsModel, PetDetailsEvent, PetDetailsEffect, PetDetailsViewEffect>(
+    MobiusFunction<ViewEffectConsumer<PetDetailsViewEffect>, MobiusLoop.Factory<PetDetailsModel, PetDetailsEvent, PetDetailsEffect>> {
+        val sideEffectHandler = PetDetailsSideEffectHandler(petUseCase = petUseCase)
+        RxMobius.loop(
+            PetDetailsModelUpdate(it),
+            sideEffectHandler
+        )
+    },
+    PetDetailsModel(),
+    PetDetailsModelInit(),
+    workRunner,
+    10
+)

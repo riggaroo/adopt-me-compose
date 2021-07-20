@@ -18,24 +18,32 @@ package com.example.androiddevchallenge.data
 import com.example.androiddevchallenge.Gender
 import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.PetLabel
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
 class PetRepository @Inject constructor() {
+    // FIXME IRL this stuff would come from a server
     private val listOfPets = listOf(
         dog7, dog, dog3, pickle, dog4, dog5, dog6,
         dog, dog3, pickle, dog4, dog5, dog6
     )
 
     fun getListPets(): Single<List<Pet>> {
-        // FIXME IRL this would come from a server
         return Single.just(listOfPets)
     }
 
-    suspend fun getPetById(id: String): Pet? {
-        return listOfPets.find { it.id == id }
+    fun getPet(id: String): Maybe<Pet> {
+        return Maybe.defer {
+            val pet = listOfPets.find { it.id == id }
+            if (pet == null) {
+                Maybe.never<Pet>()
+            } else {
+                Maybe.just(pet)
+            }
+        }
     }
 }
 

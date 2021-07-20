@@ -1,4 +1,4 @@
-package com.example.androiddevchallenge.listing.mobius
+package com.example.androiddevchallenge.listing.mvi
 
 /**
  * Side Effects

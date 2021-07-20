@@ -27,12 +27,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -52,26 +50,19 @@ import com.example.androiddevchallenge.data.dog3
 import com.example.androiddevchallenge.data.dog4
 import com.example.androiddevchallenge.listing.PetListModel
 import com.example.androiddevchallenge.listing.PetListingViewModel
-import com.example.androiddevchallenge.listing.mobius.PetListEvent
-import com.example.androiddevchallenge.listing.mobius.PetListViewEffect
+import com.example.androiddevchallenge.listing.mvi.PetListEvent
+import com.example.androiddevchallenge.listing.mvi.PetListViewEffect
+import com.example.androiddevchallenge.mobius.DisposableViewEffect
 
 @Composable
 fun PetListingScreen(navController: NavController, viewModel: PetListingViewModel) {
     val pets = viewModel.models.observeAsState(PetListModel())
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(navController) {
-        viewModel.viewEffects.setObserver(
-            lifecycleOwner,
-            { effect ->
-                when (effect) {
-                    is PetListViewEffect.ShowPetDetails -> {
-                        navController.navigate(Screen.PetDetailsScreen(effect.petId).getCalculatedRoute())
-                    }
-                }
+
+    viewModel.viewEffects.DisposableViewEffect { effect ->
+        when (effect) {
+            is PetListViewEffect.ShowPetDetails -> {
+                navController.navigate(Screen.PetDetailsScreen(effect.petId).getCalculatedRoute())
             }
-        )
-        onDispose {
-            viewModel.viewEffects.clearObserver()
         }
     }
 
