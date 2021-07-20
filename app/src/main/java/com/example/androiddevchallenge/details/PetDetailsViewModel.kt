@@ -21,12 +21,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.data.PetRepository
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class PetDetailsViewModel : ViewModel() {
-
-    // FIXME - Real life this would use Dependency injection
-    private val petRepository = PetRepository()
+@HiltViewModel
+class PetDetailsViewModel @Inject constructor(private val petRepository: PetRepository) : ViewModel() {
 
     private val _petData = MutableLiveData<Pet>()
     val petData: LiveData<Pet>

@@ -35,7 +35,7 @@ import com.spotify.mobius.functions.Function as MobiusFunction
 
 @HiltViewModel
 class PetListingViewModel @Inject constructor(
-    val petUseCase: PetUseCase,
+    private val petUseCase: PetUseCase,
     @Named(WorkRunnersConstants.MAIN_THREAD_WORK_RUNNER) workRunner: WorkRunner
 ) : MobiusLoopViewModel<PetListModel, PetListEvent, PetListEffect, PetListViewEffect>(
     MobiusFunction<ViewEffectConsumer<PetListViewEffect>, MobiusLoop.Factory<PetListModel, PetListEvent, PetListEffect>> {

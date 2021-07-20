@@ -33,6 +33,7 @@ import com.example.androiddevchallenge.listing.PetListingViewModel
 import com.example.androiddevchallenge.listing.ui.PetListingScreen
 import com.example.androiddevchallenge.ui.theme.PetTheme
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -52,10 +53,7 @@ fun PetAdoptionApp() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = ScreenRoute.PET_LISTING_SCREEN.route) {
         composable(ScreenRoute.PET_LISTING_SCREEN.route) {
-            val viewModel: PetListingViewModel =
-                viewModel(
-                    factory = HiltViewModelFactory(LocalContext.current, it)
-                )
+            val viewModel: PetListingViewModel = hiltViewModel()
             PetListingScreen(navController, viewModel = viewModel)
         }
         composable(
@@ -65,7 +63,7 @@ fun PetAdoptionApp() {
             PetDetailsScreen(
                 navController,
                 petId = backStackEntry.arguments?.getString("petId")!!,
-                viewModel = viewModel()
+                viewModel = hiltViewModel()
             )
         }
     }

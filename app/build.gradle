@@ -79,6 +79,7 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.hilt:hilt-navigation:1.0.0"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
