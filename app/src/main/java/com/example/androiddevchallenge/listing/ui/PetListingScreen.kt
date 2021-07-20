@@ -28,6 +28,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,8 +41,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieAnimationSpec
-import com.airbnb.lottie.compose.rememberLottieAnimationState
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.androiddevchallenge.Pet
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.Screen
@@ -110,11 +113,11 @@ fun PetListScreenContent(pets: List<Pet>, onPetSelected: (Pet) -> Unit) {
                             bottom = 8.dp
                         )
                 )
-                val animationState = rememberLottieAnimationState(autoPlay = true, repeatCount = Integer.MAX_VALUE)
-                val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.french_bulldog) }
+                val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.french_bulldog))
+                val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
                 LottieAnimation(
-                    animationSpec,
-                    animationState = animationState,
+                    composition,
+                    progress,
                     modifier = Modifier.size(48.dp)
                 )
             }
