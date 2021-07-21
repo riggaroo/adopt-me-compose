@@ -50,7 +50,9 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,11 +81,16 @@ import com.example.androiddevchallenge.details.ui.AdoptButtonBar
 import com.example.androiddevchallenge.details.ui.Location
 import com.example.androiddevchallenge.details.ui.PetCardInformation
 import com.example.androiddevchallenge.mobius.DisposableViewEffect
+import com.example.androiddevchallenge.mobius.MobiusEvent
 import com.example.androiddevchallenge.ui.theme.PetTheme
 import com.example.androiddevchallenge.ui.theme.outlineColor
 import com.example.androiddevchallenge.ui.theme.purple200
 import com.example.androiddevchallenge.ui.theme.purpleButtonLight
 import com.google.accompanist.coil.rememberCoilPainter
+
+typealias PetEventDelegate = (PetDetailsEvent) -> Unit
+
+val LocalDispatcher = compositionLocalOf<PetEventDelegate> { error("No active dispatcher found!") }
 
 @Composable
 fun PetDetailsScreen(navController: NavController, petId: String, viewModel: PetDetailsViewModel) {
@@ -91,12 +98,17 @@ fun PetDetailsScreen(navController: NavController, petId: String, viewModel: Pet
         viewModel.dispatchEvent(PetDetailsEvent.LoadPet(petId))
     }
     val context = LocalContext.current
+    val dispatchEvent = { event: PetDetailsEvent ->
+        viewModel.dispatchEvent(event)
+    }
 
     viewModel.viewEffects.DisposableViewEffect { effect ->
         handleViewEffect(context = context, navController = navController, effect = effect)
     }
     val viewState = viewModel.models.observeAsState(PetDetailsModel())
-    PetDetailsViewStates(viewState = viewState.value) { viewModel.dispatchEvent(it) }
+    CompositionLocalProvider(LocalDispatcher provides dispatchEvent) {
+        PetDetailsViewStates(viewState = viewState.value)
+    }
 }
 
 private fun handleViewEffect(
@@ -125,25 +137,23 @@ private fun handleViewEffect(
 
 @Composable
 fun PetDetailsViewStates(
-    viewState: PetDetailsModel,
-    actioner: (PetDetailsEvent) -> Unit
+    viewState: PetDetailsModel
 ) {
     when (viewState.viewState) {
         ViewState.LOADING -> {
            LoadingState()
         }
         ViewState.LOADED -> {
-            LoadedState(viewState = viewState, actioner = actioner)
+            LoadedState(viewState = viewState)
         }
     }
 }
 @Composable
-fun LoadedState(viewState: PetDetailsModel, actioner: (PetDetailsEvent) -> Unit) {
+fun LoadedState(viewState: PetDetailsModel) {
     val pet = viewState.pet
     if (pet != null) {
         PetDetails(
-            pet = pet,
-            actioner = actioner
+            pet = pet
         )
     } else {
         Text(text = "Pet not found")
@@ -161,7 +171,7 @@ fun LoadingState() {
 }
 
 @Composable
-fun PetDetails(pet: Pet, actioner: (PetDetailsEvent) -> Unit) {
+fun PetDetails(pet: Pet) {
     Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
@@ -215,12 +225,13 @@ fun PetDetails(pet: Pet, actioner: (PetDetailsEvent) -> Unit) {
             Location(pet = pet)
             AboutSection(pet = pet)
         }
+        val dispatcher = LocalDispatcher.current
         Icon(
             Icons.Filled.ArrowBack, "back",
             modifier = Modifier
                 .size(48.dp)
                 .clickable {
-                    actioner(PetDetailsEvent.BackPressed)
+                    dispatcher(PetDetailsEvent.BackPressed)
                 }
                 .padding(12.dp)
         )
@@ -230,10 +241,10 @@ fun PetDetails(pet: Pet, actioner: (PetDetailsEvent) -> Unit) {
         ) {
             AdoptButtonBar(
                 onAdoptClicked = {
-                    actioner(PetDetailsEvent.AdoptClicked)
+                    dispatcher(PetDetailsEvent.AdoptClicked)
                 },
                 onCallClicked = {
-                    actioner(PetDetailsEvent.CallClicked)
+                    dispatcher(PetDetailsEvent.CallClicked)
                 }
             )
         }
@@ -244,8 +255,8 @@ fun PetDetails(pet: Pet, actioner: (PetDetailsEvent) -> Unit) {
 @Preview()
 @Composable
 fun PreviewPetDetails() {
-    PetTheme() {
-        PetDetails(pet = dog, actioner = { /*TODO*/ })
+    PetTheme {
+        PetDetails(pet = dog)
     }
 }
 
@@ -253,6 +264,6 @@ fun PreviewPetDetails() {
 @Composable
 fun PreviewPetDetailsDarkTheme() {
     PetTheme(darkTheme = true) {
-        PetDetails(pet = dog3, actioner = { /*TODO*/ })
+        PetDetails(pet = dog3)
     }
 }
